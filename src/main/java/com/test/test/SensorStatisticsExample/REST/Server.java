@@ -36,9 +36,21 @@ public class Server extends AbstractVerticle {
 
   private void setupEndpoints(){
     router.post("/statistics").handler(this::statisticsRequestHandler);
-
     router.post("/user/register").handler(this::registerRequestHandler);
     router.get("/user").handler(this::findRequestHandler);
+    router.post("/metrics").handler(this::metricsRequestHandler);
+  }
+
+  private void metricsRequestHandler(RoutingContext routingContext) {
+    HttpServerResponse response = routingContext.response();
+    vertx.eventBus().<JsonObject>request(BusAddressUtils.METRICS, "", reply -> {
+      if (reply.succeeded()) {
+        response.putHeader("content-type", "application/json");
+        response.end(reply.result().body().encode());
+      } else {
+        response.end("no data");
+      }
+    });
   }
 
   private void statisticsRequestHandler(RoutingContext routingContext) {

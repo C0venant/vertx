@@ -41,6 +41,7 @@ dependencies {
   annotationProcessor ("org.projectlombok:lombok:1.18.20")
   implementation ("org.apache.logging.log4j:log4j-api:2.14.1")
   implementation ("org.apache.logging.log4j:log4j-core:2.14.1")
+  implementation ("io.vertx:vertx-dropwizard-metrics:4.0.3")
 }
 
 java {
@@ -68,5 +69,6 @@ tasks.withType<JavaExec> {
           "--redeploy=$watchForChange",
           "--launcher-class=$launcherClassName",
           "--on-redeploy=$doOnChange",
-  "-Dlog4j2.contextSelector=$asynchLog")
+  "-Dlog4j2.contextSelector=$asynchLog",
+  "-jar your-fat-jar -Dvertx.metrics.options.enabled=true")
 }

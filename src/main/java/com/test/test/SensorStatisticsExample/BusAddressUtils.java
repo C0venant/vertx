@@ -5,4 +5,5 @@ public class BusAddressUtils {
   public static final String UPDATES = "sensor.updates";
   public static final String REGISTER_USER = "user.register";
   public static final String FIND_USER = "user.find";
+  public static final String METRICS = "app.metric";
 }
