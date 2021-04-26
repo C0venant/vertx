@@ -23,6 +23,8 @@ val launcherClassName = "io.vertx.core.Launcher"
 val watchForChange = "src/**/*"
 val doOnChange = "${projectDir}/gradlew classes"
 
+val asynchLog = "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector"
+
 application {
   mainClassName = launcherClassName
 }
@@ -37,6 +39,8 @@ dependencies {
   implementation ("com.fasterxml.jackson.core:jackson-databind:2.0.1")
   compileOnly ("org.projectlombok:lombok:1.18.20")
   annotationProcessor ("org.projectlombok:lombok:1.18.20")
+  implementation ("org.apache.logging.log4j:log4j-api:2.14.1")
+  implementation ("org.apache.logging.log4j:log4j-core:2.14.1")
 }
 
 java {
@@ -60,5 +64,9 @@ tasks.withType<Test> {
 }
 
 tasks.withType<JavaExec> {
-  args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
+  args = listOf("run", mainVerticleName,
+          "--redeploy=$watchForChange",
+          "--launcher-class=$launcherClassName",
+          "--on-redeploy=$doOnChange",
+  "-Dlog4j2.contextSelector=$asynchLog")
 }

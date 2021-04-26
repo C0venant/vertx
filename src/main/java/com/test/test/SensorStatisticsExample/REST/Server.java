@@ -21,6 +21,14 @@ public class Server extends AbstractVerticle {
     router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create();
     router.route().handler(bodyHandler);
+
+    Router admin = Router.router(vertx);
+    router.mountSubRouter("/admin", admin);
+    admin.route("/").handler(event -> {
+      System.out.println("12345");
+      event.response().end();
+    });
+
     setupEndpoints();
     httpServer.requestHandler(router).listen(PORT);
 
@@ -28,6 +36,7 @@ public class Server extends AbstractVerticle {
 
   private void setupEndpoints(){
     router.post("/statistics").handler(this::statisticsRequestHandler);
+
     router.post("/user/register").handler(this::registerRequestHandler);
     router.get("/user").handler(this::findRequestHandler);
   }

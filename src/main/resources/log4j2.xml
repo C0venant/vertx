@@ -1,0 +1,25 @@
+<Configuration status="WARN">
+    <Appenders>
+        <!-- Async Loggers will auto-flush in batches, so switch off immediateFlush. -->
+        <RandomAccessFile name="RandomAccessFile" fileName="async.log" immediateFlush="true" append="true">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
+        </RandomAccessFile>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
+        </Console>
+
+
+    </Appenders>
+    <Loggers>
+        <Root level="info" includeLocation="false">
+            <AppenderRef ref="RandomAccessFile"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <Logger name="com.foo.Bar" level="trace">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+    </Loggers>
+</Configuration>
